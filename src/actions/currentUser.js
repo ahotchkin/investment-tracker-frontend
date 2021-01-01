@@ -1,3 +1,4 @@
+// synchronous action creators
 export const setCurrentUser = user => {
   return {
     type: "SET_CURRENT_USER",
@@ -5,6 +6,35 @@ export const setCurrentUser = user => {
   }
 }
 
+// asynchronous action creators
+// move all fetch requests to adapter class i.e. return Adapter.login(whatever arguments you need)
+export const login = credentials => {
+  console.log("credentials are: ", credentials)
+  return dispatch => {
+    return fetch("http://localhost:3001/api/v1/login", {
+      credentials: "include",
+      method: "POST",
+      headers: {
+        "Content-type": "application/json"
+      },
+      body: JSON.stringify(credentials)
+    })
+      .then(response => response.json())
+      .then(json => {
+        if (json.error) {
+          throw new Error(json.error)
+        } else {
+          dispatch(setCurrentUser(json.data))
+          // if (!!mealId) {
+          //   history.push(`/meals/${mealId}/foods`)
+          // } else {
+          //   history.push("/foods")
+          // }
+        }
+      })
+      .catch(json => console.log(json))
+  }
+}
 // import { getExercises } from './exercises';
 // import { getDiaries } from './diaries';
 // import { getMeals } from './meals';
