@@ -25,16 +25,33 @@ export const login = credentials => {
           throw new Error(json.error)
         } else {
           dispatch(setCurrentUser(json.data))
-          // if (!!mealId) {
-          //   history.push(`/meals/${mealId}/foods`)
-          // } else {
-          //   history.push("/foods")
-          // }
         }
       })
       .catch(json => console.log(json))
   }
 }
+
+export const getCurrentUser = () => {
+  return dispatch => {
+    return fetch("http://localhost:3001/api/v1/get_current_user", {
+      credentials: "include",
+      method: "GET",
+      headers: {
+        "Content-type": "application/json"
+      }
+    })
+      .then(response => response.json())
+      .then(json => {
+        if (json.error) {
+          throw new Error(json.error)
+        } else {
+          dispatch(setCurrentUser(json.data))
+        }
+      })
+      .catch(json => console.log(json))
+  }
+}
+
 // import { getExercises } from './exercises';
 // import { getDiaries } from './diaries';
 // import { getMeals } from './meals';
