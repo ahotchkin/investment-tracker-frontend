@@ -4,3 +4,9 @@ export const updateLoginForm = formData => {
     formData
   }
 }
+
+export const clearLoginForm = formData => {
+  return {
+    type: "CLEAR_LOGIN_FORM"
+  }
+}
