@@ -14,8 +14,36 @@ export const clearCurrentUser = user => {
 
 // asynchronous action creators
 // move all fetch requests to adapter class i.e. return Adapter.login(whatever arguments you need)
-export const signup = credentials => {
-  console.log("credentials are: ", credentials)
+export const signUp = credentials => {
+  const userInfo = {
+    user: credentials
+  }
+
+  // Update names of object keys to snake case for backend
+  userInfo.user["first_name"] = userInfo.user.["firstName"]
+  delete userInfo.user.["firstName"]
+  userInfo.user["last_name"] = userInfo.user.["lastName"]
+  delete userInfo.user["lastName"]
+
+  return dispatch => {
+    return fetch("http://localhost:3001/api/v1/signup", {
+      credentials: "include",
+      method: "POST",
+      headers: {
+        "Content-type": "application/json"
+      },
+      body: JSON.stringify(userInfo)
+    })
+      .then(response => response.json())
+      .then(json => {
+        if (json.error) {
+          throw new Error(json.error)
+        } else {
+          dispatch(setCurrentUser(json.data))
+        }
+      })
+      .catch(json => console.log(json))
+  }
 }
 
 export const login = credentials => {
@@ -58,6 +86,7 @@ export const getCurrentUser = () => {
           dispatch(setCurrentUser(json.data))
         }
       })
+      // what is catch doing here?
       .catch(json => console.log(json))
   }
 }
