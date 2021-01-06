@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
+
 import { updateLoginForm } from '../actions/loginForm';
+import { clearLoginForm } from '../actions/loginForm';
 import { login } from '../actions/currentUser';
 
 const Login = props => {
@@ -20,26 +22,34 @@ const Login = props => {
   const handleOnSubmit = event => {
     event.preventDefault();
     props.login(props.loginFormData)
+    props.clearLoginForm()
   }
 
   return (
     <form onSubmit={handleOnSubmit}>
       <label htmlFor="username">Username: </label>
       <input
-        value={props.loginFormData.username}
-        name="username"
         type="text"
+        name="username"
+        id="username"
+        value={props.loginFormData.username}
         onChange={handleOnChange}
       />
+
+      <br />
+
       <label htmlFor="password">Password: </label>
       <input
-        value={props.loginFormData.password}
-        name="password"
         type="text"
+        name="password"
+        id="password"
+        value={props.loginFormData.password}
         onChange={handleOnChange}
       />
-      <input type="submit" value="Log In" />
 
+      <br />
+
+      <input type="submit" value="Log In" />
     </form>
   )
 }
@@ -54,6 +64,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = {
   updateLoginForm,
+  clearLoginForm,
   login
 }
 
