@@ -6,8 +6,18 @@ export const setCurrentUser = user => {
   }
 }
 
+export const clearCurrentUser = user => {
+  return {
+    type: "CLEAR_CURRENT_USER"
+  }
+}
+
 // asynchronous action creators
 // move all fetch requests to adapter class i.e. return Adapter.login(whatever arguments you need)
+export const signup = credentials => {
+  console.log("credentials are: ", credentials)
+}
+
 export const login = credentials => {
   console.log("credentials are: ", credentials)
   return dispatch => {
@@ -52,6 +62,15 @@ export const getCurrentUser = () => {
   }
 }
 
+export const logout = () => {
+  return dispatch => {
+    dispatch(clearCurrentUser())
+    return fetch("http://localhost:3001/api/v1/logout", {
+      credentials: "include",
+      method: "DELETE"
+    })
+  }
+}
 // import { getExercises } from './exercises';
 // import { getDiaries } from './diaries';
 // import { getMeals } from './meals';
@@ -64,18 +83,6 @@ export const getCurrentUser = () => {
 // import { clearFoods } from './foods';
 //
 // // synchronous actions
-// export const setCurrentUser = user => {
-//   return {
-//     type: "SET_CURRENT_USER",
-//     user
-//   }
-// }
-//
-// export const clearCurrentUser = () => {
-//   return {
-//     type: "CLEAR_CURRENT_USER"
-//   }
-// }
 //
 //
 // // aysnchronous actions
@@ -159,31 +166,6 @@ export const getCurrentUser = () => {
 //   }
 // }
 //
-// export const getCurrentUser = () => {
-//   return dispatch => {
-//     // can abstract fetch requests into an adapter class and do something like - return Adapter.login(args) or Api.login(args)
-//     return fetch(baseUrl + "/get_current_user", {
-//       credentials: "include",
-//       method: "GET",
-//       headers: {
-//         "Content-Type": "application/json"
-//       },
-//     })
-//       .then(response => response.json())
-//       .then(json => {
-//         if (json.error) {
-//           console.log(json.error)
-//         } else {
-//           dispatch(setCurrentUser(json.data))
-//           dispatch(getExercises())
-//           dispatch(getDiaries())
-//           dispatch(getMeals())
-//           dispatch(getFoods())
-//         }
-//       })
-//       .catch(console.log())
-//   }
-// }
 //
 // // clears the session and the store
 // export const logout = () => {
