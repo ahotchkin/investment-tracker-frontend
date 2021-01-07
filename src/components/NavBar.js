@@ -7,9 +7,19 @@ import { logout } from '../actions/currentUser';
 const NavBar = ({ logout }) => {
 
   return (
-    <NavLink exact activeclass="true" to="/logout" onClick={logout}>
-      Log Out
-    </NavLink>
+    <div>
+      <NavLink exact activeclass="true" to="/">
+        Home
+      </NavLink>
+        |
+      <NavLink exact activeclass="true" to="/user_stocks/new">
+        Add Stock
+      </NavLink>
+        | 
+      <NavLink exact activeclass="true" to="/logout" onClick={logout}>
+        Log Out
+      </NavLink>
+    </div>
   )
 }
 
