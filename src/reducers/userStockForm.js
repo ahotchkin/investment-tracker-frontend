@@ -1,23 +1,24 @@
 const initialState = {
+  // These are attributes of a stock that need to be entered. A new stock will be created if it doesn't already exist.
+  name: "",
+  symbol: "",
+  industry: "",
+  sector: "",
+  // These are attributes of a user_stock that are specific to the current user.
   purchaseDate: "",
   numberOfShares: "",
-  totalSpent: "",
-  // t.integer "user_id", null: false
-  // t.integer "stock_id", null: false
-  //
-  //
-  // t.string "name"
-  // t.string "symbol"
-  // t.string "industry"
-  // t.string "sector"
-
+  totalSpent: ""
 }
 
-
-
-
-onst userStockFormReducer = (state = initialState, acction) => {
-
+const userStockFormReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case "UPDATE_USER_STOCK_FORM":
+      return action.formData
+    case "CLEAR_USER_STOCK_FORM":
+      return initialState
+    default:
+      return state
+  }
 }
 
 export default userStockFormReducer
