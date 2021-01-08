@@ -1,3 +1,6 @@
+import { getStocks } from './stocks';
+
+
 // synchronous action creators
 export const setCurrentUser = user => {
   return {
@@ -40,6 +43,7 @@ export const signUp = credentials => {
           throw new Error(json.error)
         } else {
           dispatch(setCurrentUser(json.data))
+          dispatch(getStocks())
         }
       })
       .catch(json => console.log(json))
@@ -63,6 +67,7 @@ export const login = credentials => {
           throw new Error(json.error)
         } else {
           dispatch(setCurrentUser(json.data))
+          dispatch(getStocks())
         }
       })
       .catch(json => console.log(json))
@@ -84,6 +89,9 @@ export const getCurrentUser = () => {
           throw new Error(json.error)
         } else {
           dispatch(setCurrentUser(json.data))
+          dispatch(getStocks())
+          // DO I NEED THIS
+          // history.push("/")
         }
       })
       // what is catch doing here?
