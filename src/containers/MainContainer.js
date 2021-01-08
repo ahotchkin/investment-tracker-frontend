@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Route, Redirect, Switch } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 import { getCurrentUser } from '../actions/currentUser';
-import { connect } from 'react-redux';
 
 import Login from '../components/Login';
 import NavBar from '../components/NavBar';
@@ -48,7 +48,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
-  getCurrentUser
+  getCurrentUser,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(MainContainer);
