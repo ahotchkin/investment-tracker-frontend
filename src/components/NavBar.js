@@ -15,7 +15,11 @@ const NavBar = ({ logout }) => {
       <NavLink exact activeclass="true" to="/user_stocks/new">
         Add Stock
       </NavLink>
-        | 
+        |
+      <NavLink exact activeclass="true" to="/stocks">
+        All Stocks
+      </NavLink>
+        |
       <NavLink exact activeclass="true" to="/logout" onClick={logout}>
         Log Out
       </NavLink>
