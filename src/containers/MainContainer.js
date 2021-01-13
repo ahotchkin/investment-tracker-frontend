@@ -11,6 +11,7 @@ import Home from '../components/Home';
 import SignUp from '../components/SignUp'
 
 import UserStocksContainer from './UserStocksContainer';
+import StocksContainer from './StocksContainer';
 
 // change this to functional component with hooks - how????
 class MainContainer extends Component {
@@ -30,7 +31,9 @@ class MainContainer extends Component {
           <Route exact path="/signup" render={ props => this.props.loggedIn ? <Redirect to="/" /> : <SignUp history={props.history}/> } />
 
           {/* Do I want this to go to /user_stocks or /user_stocks/new? */}
-          <Route exact path="/user_stocks/new" render={ routerProps => this.props.loggedIn ? <UserStocksContainer {...routerProps} /> : <Home /> }/>
+          <Route exact path="/user_stocks/new" render={ routerProps => this.props.loggedIn ? <UserStocksContainer {...routerProps} /> : <Home /> } />
+
+          <Route exact path="/stocks" render={ routerProps => this.props.loggedIn ? <StocksContainer {...routerProps} /> : <Home /> } />
 
           <Route exact path="/logout" render={ () => <Redirect to="/" /> } />
 
