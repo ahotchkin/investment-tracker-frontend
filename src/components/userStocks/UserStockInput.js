@@ -39,90 +39,103 @@ const UserStockInput = props => {
     props.clearUserStockForm()
   }
 
+  console.log(props)
   return (
-    <form onSubmit={handleOnSubmit}>
-      {/* Have drop down list, when user selects stock, populate Symbol, Industry, and Sector. If user selects "New Stock", have new field appear for user to type stock name. */}
-      <label htmlFor="name">Name: </label>
-      <input
-        type="text"
-        name="name"
-        id="name"
-        value={props.userStockFormData.name}
-        onChange={handleOnChange}
-      />
+    <div>
+      <h4>Add a Stock to Your Portfolio</h4>
+      <form onSubmit={handleOnSubmit}>
+        {/* Have drop down list, when user selects stock, populate Symbol, Industry, and Sector. If user selects "New Stock", have new field appear for user to type stock name. */}
+        <label htmlFor="stocks">Stock:</label>
+        <select id="stocks" name="stocks" defaultValue="DEFAULT">
+          <option value="DEFAULT" disabled hidden>Select</option>
+          {/* Sort stocks alphabetically - do this on backend? */}
+          { props.stocks.map(stock =>  <option key={stock.id} value={stock.attributes.name.toLowerCase()}>{stock.attributes.name}</option>) }
+        </select>
 
-      <br />
+        <br />
 
-      <label htmlFor="symbol">Symbol: </label>
-      {/* If stock/ETF is already in database, prepopulate symbol */}
-      <input
-        type="text"
-        name="symbol"
-        id="symbol"
-        value={props.userStockFormData.symbol}
-        onChange={handleOnChange}
-      />
+        <label htmlFor="name">Name: </label>
+        <input
+          type="text"
+          name="name"
+          id="name"
+          value={props.userStockFormData.name}
+          onChange={handleOnChange}
+        />
 
-      <br />
+        <br />
 
-      <label htmlFor="industry">Industry: </label>
-      <input
-        type="text"
-        name="industry"
-        id="industry"
-        value={props.userStockFormData.industry}
-        onChange={handleOnChange}
-      />
+        <label htmlFor="symbol">Symbol: </label>
+        {/* If stock/ETF is already in database, prepopulate symbol */}
+        <input
+          type="text"
+          name="symbol"
+          id="symbol"
+          value={props.userStockFormData.symbol}
+          onChange={handleOnChange}
+        />
 
-      <br />
+        <br />
 
-      <label htmlFor="sector">Sector: </label>
-      <input
-        type="text"
-        name="sector"
-        id="sector"
-        value={props.userStockFormData.sector}
-        onChange={handleOnChange}
-      />
+        <label htmlFor="industry">Industry: </label>
+        <input
+          type="text"
+          name="industry"
+          id="industry"
+          value={props.userStockFormData.industry}
+          onChange={handleOnChange}
+        />
 
-      <br />
+        <br />
 
-      <label htmlFor="purchaseDate">Purchase Date: </label>
-      <input
-        type="date"
-        name="purchaseDate"
-        id="purchaseDate"
-        value={props.userStockFormData.purchaseDate}
-        onChange={handleOnChange}
-      />
+        <label htmlFor="sector">Sector: </label>
+        <input
+          type="text"
+          name="sector"
+          id="sector"
+          value={props.userStockFormData.sector}
+          onChange={handleOnChange}
+        />
 
-      <br />
+        <br />
 
-      <label htmlFor="numberOfShares">Number of Shares: </label>
-      <input
-        type="number"
-        name="numberOfShares"
-        id="numberOfShares"
-        value={props.userStockFormData.numberOfShares}
-        onChange={handleOnChange}
-      />
+        <label htmlFor="purchaseDate">Purchase Date: </label>
+        <input
+          type="date"
+          name="purchaseDate"
+          id="purchaseDate"
+          value={props.userStockFormData.purchaseDate}
+          onChange={handleOnChange}
+        />
 
-      <br />
+        <br />
 
-      <label htmlFor="totalSpent">Total Spent: </label>
-      <input
-        type="number"
-        name="totalSpent"
-        id="totalSpent"
-        value={props.userStockFormData.totalSpent}
-        onChange={handleOnChange}
-      />
+        <label htmlFor="numberOfShares">Number of Shares: </label>
+        <input
+          type="number"
+          name="numberOfShares"
+          id="numberOfShares"
+          value={props.userStockFormData.numberOfShares}
+          onChange={handleOnChange}
+        />
 
-      <br /><br />
+        <br />
 
-      <input type="submit" value="Add Stock" />
+        <label htmlFor="totalSpent">Total Spent: </label>
+        <input
+          type="number"
+          name="totalSpent"
+          id="totalSpent"
+          value={props.userStockFormData.totalSpent}
+          onChange={handleOnChange}
+        />
 
-    </form>
+        <br /><br />
+
+        <input type="submit" value="Add Stock" />
+
+      </form>
+    </div>
   )
 }
 
