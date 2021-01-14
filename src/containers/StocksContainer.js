@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
-import { connect } from 'react-redux';
+// import { connect } from 'react-redux';
 
-import Stock from '../components/stocks/Stock';
+import Stocks from '../components/stocks/Stocks';
 
 class StocksContainer extends Component {
   render() {
@@ -10,7 +10,7 @@ class StocksContainer extends Component {
       <div>
         <h3>I'm in the StocksContainer</h3>
         <Switch>
-          <Route exact path={this.props.match.url} render={ routerProps => <Stock stocks={this.props.stocks} /> } />
+          <Route exact path={this.props.match.url} render={ routerProps => <Stocks stocks={this.props.stocks} /> } />
         </Switch>
       </div>
     )
@@ -18,10 +18,11 @@ class StocksContainer extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    stocks: state.stocks
-  }
-}
+// const mapStateToProps = state => {
+//   return {
+//     stocks: state.stocks
+//   }
+// }
 
-export default connect(mapStateToProps)(StocksContainer);
+// export default connect(null)(StocksContainer);
+export default StocksContainer;
