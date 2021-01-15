@@ -8,7 +8,7 @@ const initialState = {
   // These are attributes of a user_stock that are specific to the current user.
   purchaseDate: "",
   numberOfShares: "",
-  totalSpent: ""
+  totalSpent: ""  
 }
 
 const userStockFormReducer = (state = initialState, action) => {
