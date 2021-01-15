@@ -31,7 +31,7 @@ class MainContainer extends Component {
           <Route exact path="/signup" render={ props => this.props.loggedIn ? <Redirect to="/" /> : <SignUp history={props.history}/> } />
 
           {/* Do I want this to go to /user_stocks or /user_stocks/new? */}
-          <Route exact path="/user_stocks/new" render={ routerProps => this.props.loggedIn ? <UserStocksContainer stocks={this.props.stocks} {...routerProps} /> : <Home /> } />
+          <Route exact path="/user_stocks/new" render={ routerProps => this.props.loggedIn ? <UserStocksContainer currentuser={this.props.currentUser} stocks={this.props.stocks} {...routerProps} /> : <Home /> } />
 
           <Route exact path="/stocks" render={ routerProps => this.props.loggedIn ? <StocksContainer stocks={this.props.stocks} {...routerProps} /> : <Home /> } />
 
@@ -46,7 +46,7 @@ class MainContainer extends Component {
 const mapStateToProps = state => {
   return {
     loggedIn: !!state.currentUser,
-    // currentUser: state.currentUser,
+    currentUser: state.currentUser,
     stocks: state.stocks
   }
 };
