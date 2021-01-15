@@ -37,7 +37,7 @@ const UserStockInput = props => {
   const handleOnSubmit = event => {
     event.preventDefault();
     console.log(props.userStockFormData)
-    // props.createUserStock(props.userStockFormData)
+    props.createUserStock(props.userStockFormData, props.userId, selectedStock.id)
     props.clearUserStockForm()
   }
 
