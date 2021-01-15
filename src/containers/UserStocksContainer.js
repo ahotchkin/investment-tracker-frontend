@@ -6,12 +6,27 @@ import UserStockInput from '../components/userStocks/UserStockInput';
 
 // update to functional component with hooks
 class UserStocksContainer extends Component {
+
+  state = {
+    loaded: false
+  }
+
+  componentDidMount() {
+    this.setState({
+      loaded: true
+    })
+  }
+
   render() {
     return (
       <div>
         <h3>I'm in the UserStocksContainer</h3>
         <Switch>
-          <Route exact path={this.props.match.url} render={ routerProps => <UserStockInput stocks={this.props.stocks} /> } />
+          { !!this.state.loaded ?
+            <Route exact path={this.props.match.url} render={ routerProps => <UserStockInput userId={this.props.currentUser.id} stocks={this.props.stocks} /> } />
+          :
+            null
+          }
         </Switch>
       </div>
     )
