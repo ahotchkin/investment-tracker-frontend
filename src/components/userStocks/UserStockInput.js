@@ -18,6 +18,8 @@ import { createUserStock } from '../../actions/userStocks';
 
 const UserStockInput = props => {
 
+  const selectedStock = props.stocks.find(stock => stock.attributes.name === props.userStockFormData.stock)
+  console.log(selectedStock)
   // refactor since this is used in all forms
   const handleOnChange = event => {
     // use event to dynamically grab the name and value
@@ -45,15 +47,16 @@ const UserStockInput = props => {
       <h4>Add a Stock to Your Portfolio</h4>
       <form onSubmit={handleOnSubmit}>
         {/* Have drop down list, when user selects stock, populate Symbol, Industry, and Sector. If user selects "New Stock", have new field appear for user to type stock name. */}
-        <label htmlFor="stocks">Stock:</label>
-        <select id="stocks" name="stocks" defaultValue="DEFAULT">
+        <label htmlFor="stock">Stock:</label>
+        <select id="stock" name="stock" defaultValue="DEFAULT" onChange={handleOnChange}>
           <option value="DEFAULT" disabled hidden>Select</option>
           {/* Sort stocks alphabetically - do this on backend? */}
-          { props.stocks.map(stock =>  <option key={stock.id} value={stock.attributes.name.toLowerCase()}>{stock.attributes.name}</option>) }
+          { props.stocks.map(stock => <option key={stock.id} value={stock.attributes.name}>{stock.attributes.name}</option>) }
         </select>
 
         <br />
 
+        {/*
         <label htmlFor="name">Name: </label>
         <input
           type="text"
@@ -66,7 +69,6 @@ const UserStockInput = props => {
         <br />
 
         <label htmlFor="symbol">Symbol: </label>
-        {/* If stock/ETF is already in database, prepopulate symbol */}
         <input
           type="text"
           name="symbol"
@@ -98,6 +100,8 @@ const UserStockInput = props => {
         />
 
         <br />
+        */}
+
 
         <label htmlFor="purchaseDate">Purchase Date: </label>
         <input
