@@ -19,7 +19,6 @@ import { createUserStock } from '../../actions/userStocks';
 const UserStockInput = props => {
 
   const selectedStock = props.stocks.find(stock => stock.attributes.name === props.userStockFormData.stock)
-  console.log(selectedStock)
   // refactor since this is used in all forms
   const handleOnChange = event => {
     // use event to dynamically grab the name and value
@@ -36,12 +35,10 @@ const UserStockInput = props => {
 
   const handleOnSubmit = event => {
     event.preventDefault();
-    console.log(props.userStockFormData)
     props.createUserStock(props.userStockFormData, props.userId, selectedStock.id)
     props.clearUserStockForm()
   }
 
-  console.log(props)
   return (
     <div>
       <h4>Add a Stock to Your Portfolio</h4>
