@@ -1,5 +1,4 @@
-// // synchronous actions
-
+// synchronous actions
 export const setStocks = stocks => {
   return {
     type: "SET_STOCKS",
@@ -16,7 +15,7 @@ export const setStocks = stocks => {
 //
 // // asynchronous actions
 
-export const getStocks = stocks => {
+export const getStocks = () => {
   return dispatch => {
     return fetch("http://localhost:3001/api/v1/stocks", {
       credentials: "include",
