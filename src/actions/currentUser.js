@@ -1,5 +1,5 @@
 import { getStocks } from './stocks';
-
+import { getUserStocks } from './userStocks';
 
 // synchronous action creators
 export const setCurrentUser = user => {
@@ -44,6 +44,7 @@ export const signUp = credentials => {
         } else {
           dispatch(setCurrentUser(json.data))
           dispatch(getStocks())
+          dispatch(getUserStocks())
         }
       })
       .catch(json => console.log(json))
@@ -68,6 +69,7 @@ export const login = credentials => {
         } else {
           dispatch(setCurrentUser(json.data))
           dispatch(getStocks())
+          dispatch(getUserStocks())
         }
       })
       .catch(json => console.log(json))
@@ -90,6 +92,7 @@ export const getCurrentUser = () => {
         } else {
           dispatch(setCurrentUser(json.data))
           dispatch(getStocks())
+          dispatch(getUserStocks())
           // DO I NEED THIS
           // history.push("/")
         }
