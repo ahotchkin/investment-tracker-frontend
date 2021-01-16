@@ -1,14 +1,41 @@
 // synchronous actions
+export const setUserStocks = userStocks => {
+  return {
+    type: "SET_USER_STOCKS",
+    userStocks
+  }
+}
+
 export const addUserStock = userStock => {
   return {
-    action: "ADD_USER_STOCK",
+    type: "ADD_USER_STOCK",
     userStock
   }
 }
 
 // asynchronous actions
+export const getUserStocks = () => {
+  return dispatch => {
+    fetch("http://localhost:3001/api/v1/user_stocks", {
+    credentials: "include",
+    method: "GET",
+    headers: {
+      "Content-type": "application/json"
+    },
+  })
+    .then(response => response.json())
+    .then(json => {
+      if (json.error) {
+        throw new Error(json.error)
+      } else {
+        dispatch(setUserStocks())
+      }
+    })
+    .catch(json => console.log(json))
+  }
+}
+
 export const createUserStock = (userStockFormData, userId, stockId) => {
-  console.log(userStockFormData)
   const userStock = {
     purchase_date: userStockFormData.purchaseDate,
     number_of_shares: userStockFormData.numberOfShares,
@@ -18,15 +45,15 @@ export const createUserStock = (userStockFormData, userId, stockId) => {
   }
 
   return dispatch => {
-    fetch("http://localhost:3001/api/v1/user_stocks/new", {
+    return fetch("http://localhost:3001/api/v1/user_stocks", {
       credentials: "include",
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-type": "application/json"
       },
       body: JSON.stringify(userStock)
     })
-      .then(response => response.json)
+      .then(response => response.json())
       .then(json => {
         if (json.error) {
           throw new Error(json.error)
@@ -34,5 +61,6 @@ export const createUserStock = (userStockFormData, userId, stockId) => {
           dispatch(addUserStock(json.data))
         }
       })
+      .catch(json => console.log(json))
   }
 }
