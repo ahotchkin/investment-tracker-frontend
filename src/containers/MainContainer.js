@@ -25,12 +25,12 @@ class MainContainer extends Component {
       <div className="App">
         { this.props.loggedIn ? <NavBar /> : null }
         <Switch>
-          <Route exact path="/" render={ props => this.props.loggedIn ? <Dashboard /> : <Home /> } />
+          <Route exact path="/" render={ routerProps => this.props.loggedIn ? <Dashboard currentUser={this.props.currentUser} userStocks={this.props.userStocks} /> : <Home /> } />
 
           <Route exact path="/login" render={ props => this.props.loggedIn ? <Redirect to="/" /> : <Login history={props.history}/> } />
           <Route exact path="/signup" render={ props => this.props.loggedIn ? <Redirect to="/" /> : <SignUp history={props.history}/> } />
 
-          {/* Do I want this to go to /user_stocks or /user_stocks/new? */}
+          {/* Do I want this to go to /user_stocks or /user_stocks/new? Can't get it to work by using /user_stocks */}
           <Route exact path="/user_stocks/new" render={ routerProps => this.props.loggedIn ? <UserStocksContainer currentUser={this.props.currentUser} stocks={this.props.stocks} {...routerProps} /> : <Home /> } />
 
           <Route exact path="/stocks" render={ routerProps => this.props.loggedIn ? <StocksContainer stocks={this.props.stocks} {...routerProps} /> : <Home /> } />
@@ -47,7 +47,8 @@ const mapStateToProps = state => {
   return {
     loggedIn: !!state.currentUser,
     currentUser: state.currentUser,
-    stocks: state.stocks
+    stocks: state.stocks,
+    userStocks: state.userStocks
   }
 };
 
