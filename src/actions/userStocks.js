@@ -16,7 +16,7 @@ export const addUserStock = userStock => {
 // asynchronous actions
 export const getUserStocks = () => {
   return dispatch => {
-    fetch("http://localhost:3001/api/v1/user_stocks", {
+    return fetch("http://localhost:3001/api/v1/user_stocks", {
     credentials: "include",
     method: "GET",
     headers: {
@@ -28,14 +28,14 @@ export const getUserStocks = () => {
       if (json.error) {
         throw new Error(json.error)
       } else {
-        dispatch(setUserStocks())
+        dispatch(setUserStocks(json.data))
       }
     })
     .catch(json => console.log(json))
   }
 }
 
-export const createUserStock = (userStockFormData, userId, stockId) => {
+export const createUserStock = (userStockFormData, userId, stockId, history) => {
   const userStock = {
     purchase_date: userStockFormData.purchaseDate,
     number_of_shares: userStockFormData.numberOfShares,
@@ -59,6 +59,7 @@ export const createUserStock = (userStockFormData, userId, stockId) => {
           throw new Error(json.error)
         } else {
           dispatch(addUserStock(json.data))
+          history.push("/")
         }
       })
       .catch(json => console.log(json))
