@@ -12,6 +12,10 @@ const NavBar = ({ logout }) => {
         Home
       </NavLink>
         |
+      <NavLink exact activeclass="true" to="/user_stocks">
+        My Stocks
+      </NavLink>
+        |
       <NavLink exact activeclass="true" to="/user_stocks/new">
         Add Stock
       </NavLink>
