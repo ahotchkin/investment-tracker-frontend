@@ -3,10 +3,7 @@ const userStocksReducer = (state = [], action) => {
     case "SET_USER_STOCKS":
       return action.userStocks
     case "ADD_USER_STOCK":
-      console.log(state.concat(action.userStock))
-
-      // return state.concat(action.userStock)
-      return state
+      return state.concat(action.userStock)
     default:
       return state
   }
