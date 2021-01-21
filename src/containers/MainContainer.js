@@ -25,7 +25,7 @@ class MainContainer extends Component {
       <div className="App">
         { this.props.loggedIn ? <NavBar /> : null }
         <Switch>
-          <Route exact path="/" render={ routerProps => this.props.loggedIn ? <Dashboard currentUser={this.props.currentUser} userStocks={this.props.userStocks} /> : <Home /> } />
+          <Route exact path="/" render={ routerProps => this.props.loggedIn ? <Dashboard currentUser={this.props.currentUser} stocks={this.props.stocks} userStocks={this.props.userStocks} /> : <Home /> } />
 
           <Route exact path="/login" render={ props => this.props.loggedIn ? <Redirect to="/" /> : <Login history={props.history}/> } />
           <Route exact path="/signup" render={ props => this.props.loggedIn ? <Redirect to="/" /> : <SignUp history={props.history}/> } />
