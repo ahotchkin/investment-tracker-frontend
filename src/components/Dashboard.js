@@ -8,7 +8,7 @@ const Dashboard = props => {
       <p>
         Welcome to your Investment Tracker Dashboard!
       </p>
-      <UserStocks currentUser={props.currentUser} userStocks={props.userStocks} />
+      <UserStocks currentUser={props.currentUser} userStocks={props.userStocks} stocks={props.stocks} />
     </div>
   )
 }
