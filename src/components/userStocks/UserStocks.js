@@ -28,7 +28,7 @@ const UserStocks = props => {
               <td>Industry</td>
               <td>Sector</td>
               <td>Purchase Cost</td>
-              <td>Stock Price</td>
+              <td>Current Share Price</td>
               <td>Number of Shares</td>
               <td>Total Spent</td>
               <td>Total Stock Value</td>
