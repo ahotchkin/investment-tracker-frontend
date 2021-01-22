@@ -17,7 +17,7 @@ class UserStocksContainer extends Component {
           <Route exact path={this.props.match.url} render={ routerProps => <UserStockInput userId={this.props.currentUser.id} stocks={this.props.stocks} history={this.props.history} /> } />
 
           {/*
-          <Route exact path={this.props.match.url} render={ routerProps => <UserStocks userId={this.props.currentUser.id} stocks={this.props.stocks} /> } />
+          <Route exact path={this.props.match.url} render={ routerProps => <UserStocks userId={this.props.currentUser.id} stocks={this.props.stocks} userStocks={this.props.userStocks} /> } />
           */}
         </Switch>
       </div>
