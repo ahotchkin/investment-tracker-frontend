@@ -37,7 +37,7 @@ export const getStocks = () => {
           throw new Error(json.error)
         } else {
           dispatch(setStocks(json.data))
-          json.data.map(stock => getStockInfo(stock))
+          json.data.map(stock => dispatch(getStockInfo(stock)))
         }
       })
       .catch(json => console.log(json))
@@ -46,11 +46,9 @@ export const getStocks = () => {
 
 export const getStockInfo = stock => {
   const stockSymbol = stock.attributes.symbol
-  console.log(`https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=${stockSymbol}&apikey=V620KZOT3DPD8ZME`)
 
   return dispatch => {
-    console.log("I'm here in dispatch")
-    return fetch(`https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=${stockSymbol}&apikey=V620KZOT3DPD8ZME`, {
+    return fetch(`https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${stockSymbol}&interval=5min&apikey=V620KZOT3DPD8ZME`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json"
@@ -59,16 +57,16 @@ export const getStockInfo = stock => {
       .then(response => response.json())
       .then(json => {
         if (json.error) {
-          console.log("I'm here")
           throw new Error(json.error)
         } else {
-          console.log("I'm here")
-          // dispatch(setStockInfo(json.data))
+          const stockInfo = {...json, id: stock.id}
+          dispatch(setStockInfo(stockInfo))
         }
       })
-      .atch(json => console.log(json))
+      .catch(json => console.log(json))
   }
 }
+
 // Eventually want user to have ability to add a stock to the database, ideally as they add a userStock.
 // export const createStock = stockData => {
 //   console.log(stockData)
