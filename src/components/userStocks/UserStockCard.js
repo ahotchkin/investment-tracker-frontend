@@ -1,8 +1,6 @@
 import React from 'react';
 
 const UserStockCard = props => {
-  console.log(props)
-
   const daysHeld = Math.floor((new Date().getTime() - Date.parse(props.userStock.attributes.purchase_date)) / (1000*60*60*24))
 
   return (
@@ -22,7 +20,7 @@ const UserStockCard = props => {
       <td>$ return</td>
       <td>% portfolio</td>
     </tr>
-)
+  )
 }
 
 export default UserStockCard;

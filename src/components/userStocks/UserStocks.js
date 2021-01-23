@@ -5,8 +5,6 @@ import UserStockCard from './UserStockCard';
 
 const UserStocks = props => {
 
-  console.log(props)
-
   // How do I call this in userStockCards when defining userStockStock prop?
   // const userStockStock = (userStock) => {
   //   props.stocks.filter(stock => stock.id === userStock.relationships.stock.data.id)
