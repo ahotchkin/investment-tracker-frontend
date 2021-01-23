@@ -1,7 +1,21 @@
 import React from 'react';
 
 const UserStockCard = props => {
+
   const daysHeld = Math.floor((new Date().getTime() - Date.parse(props.userStock.attributes.purchase_date)) / (1000*60*60*24))
+
+  const totalSpent = parseFloat(props.userStock.attributes.total_spent).toFixed(2)
+
+  const currentSharePrice = () => {
+    if (!!props.userStockStock["Meta Data"]) {
+      const lastRefreshed = props.userStockStock["Meta Data"]["3. Last Refreshed"]
+      const currentStockInfo = props.userStockStock["Time Series (5min)"][lastRefreshed]
+      const currentSharePrice = parseFloat(currentStockInfo["1. open"]).toFixed(2)
+      return currentSharePrice
+    }
+  }
+
+  const totalStockValue = (currentSharePrice() * props.userStock.attributes.number_of_shares).toFixed(2)
 
   return (
     <tr>
@@ -12,12 +26,12 @@ const UserStockCard = props => {
       <td>{props.userStockStock.attributes.industry}</td>
       <td>{props.userStockStock.attributes.sector}</td>
       <td>${(props.userStock.attributes.total_spent / props.userStock.attributes.number_of_shares).toFixed(2)}</td>
-      <td>Current stock price</td>
+      <td>${currentSharePrice()}</td>
       <td>{props.userStock.attributes.number_of_shares}</td>
-      <td>${parseFloat(props.userStock.attributes.total_spent).toFixed(2)}</td>
-      <td>Stock value</td>
-      <td>% return</td>
-      <td>$ return</td>
+      <td>${totalSpent}</td>
+      <td>${totalStockValue}</td>
+      <td>{((totalStockValue / totalSpent) - 1).toFixed(2)}</td>
+      <td>${(totalStockValue - totalSpent).toFixed(2)}</td>
       <td>% portfolio</td>
     </tr>
   )
