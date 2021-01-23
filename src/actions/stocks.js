@@ -5,6 +5,13 @@ export const setStocks = stocks => {
     stocks
   }
 }
+
+export const setStockInfo = stock => {
+  return {
+    type: "SET_STOCK_INFO",
+    stock
+  }
+}
 // Eventually want user to have ability to add a stock to the database, ideally as they add a userStock.
 // export const addStock = stock => {
 //   return {
@@ -30,9 +37,36 @@ export const getStocks = () => {
           throw new Error(json.error)
         } else {
           dispatch(setStocks(json.data))
+          json.data.map(stock => getStockInfo(stock))
         }
       })
       .catch(json => console.log(json))
+  }
+}
+
+export const getStockInfo = stock => {
+  const stockSymbol = stock.attributes.symbol
+  console.log(`https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=${stockSymbol}&apikey=V620KZOT3DPD8ZME`)
+
+  return dispatch => {
+    console.log("I'm here in dispatch")
+    return fetch(`https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=${stockSymbol}&apikey=V620KZOT3DPD8ZME`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json"
+      },
+    })
+      .then(response => response.json())
+      .then(json => {
+        if (json.error) {
+          console.log("I'm here")
+          throw new Error(json.error)
+        } else {
+          console.log("I'm here")
+          // dispatch(setStockInfo(json.data))
+        }
+      })
+      .atch(json => console.log(json))
   }
 }
 // Eventually want user to have ability to add a stock to the database, ideally as they add a userStock.
