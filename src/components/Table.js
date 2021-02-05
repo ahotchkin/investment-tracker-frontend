@@ -1,9 +1,196 @@
 import React from 'react';
+import { useTable } from 'react-table'
 
-const Table = () => {
+const Table = props => {
+  console.log("table props: ", props)
+
+  // const userStockCards = props.userStocks.map(userStock => <UserStockCard userStock={userStock} key={userStock.id} userStockStock={props.stocks.find(stock => stock.id === userStock.relationships.stock.data.id)}/>)
+
+  const columns = React.useMemo(
+   () => [
+     {
+       Header: "Date Purchased",
+       accessor: "datePurchased", // accessor is the "key" in the data
+     },
+     {
+       Header: "Days Held",
+       accessor: "daysHeld",
+     },
+     {
+       Header: "Stock",
+       accessor: "stock",
+     },
+     {
+       Header: "Symbol",
+       accessor: "symbol",
+     },
+     {
+       Header: "Industry",
+       accessor: "industry",
+     },
+     {
+       Header: "Sector",
+       accessor: "sector",
+     },
+     {
+       Header: "Purchase Cost",
+       accessor: "purchaseCost",
+     },
+     {
+       Header: "Current Share Price",
+       accessor: "currentSharePrice",
+     },
+     {
+       Header: "Number of Shares",
+       accessor: "numberOfShares",
+     },
+     {
+       Header: "Total Spent",
+       accessor: "totalSpent",
+     },
+     {
+       Header: "Total Stock Value",
+       accessor: "totalStockValue",
+     },
+     {
+       Header: "% Return",
+       accessor: "percentReturn",
+     },
+     {
+       Header: "Absolute $ Return",
+       accessor: "absoluteReturn",
+     },
+     {
+       Header: "% Portfolio",
+       accessor: "percentOfPortfolio",
+     },
+     {
+       Header: "% of Total Cost",
+       accessor: "percentOfTotal",
+        accessor: row => {
+          const totalCost = data.map(cell => cell.price).reduce((sum, current) => sum + current)
+          return ((row.price / totalCost) * 100).toFixed(2)
+        }
+     },
+   ],
+   []
+  )
+
+  // const data = React.useMemo(
+  //  () => [
+  //    {
+  //      product: "TV",
+  //      price: 200,
+  //      percentOfTotal: ""
+  //    },
+  //    {
+  //      product: "Computer",
+  //      price: 800,
+  //      percentOfTotal: ""
+  //
+  //    },
+  //    {
+  //      product: "Nintendo",
+  //      price: 300,
+  //      percentOfTotal: ""
+  //    },
+  //  ],
+  //  []
+  // )
+
+  const data = React.useMemo(
+   () =>
+
+   props.userStocks.map(userStock => {
+     let userStockObj = {}
+
+     const userStockStock = props.stocks.find(stock => stock.id === userStock.relationships.stock.data.id)
+     console.log(userStockStock["id"])
+     //
+     // const currentSharePrice = () => {
+     //   if (!!userStockStock["Meta Data"]) {
+     //     const lastRefreshed = props.userStockStock["Meta Data"]["3. Last Refreshed"]
+     //     const currentStockInfo = props.userStockStock["Time Series (5min)"][lastRefreshed]
+     //     const currentSharePrice = parseFloat(currentStockInfo["1. open"]).toFixed(2)
+     //     return currentSharePrice
+     //   }
+     // }
+
+     // const currentSharePrice = parseFloat(props.userStockStock["Time Series (5min)"][props.userStockStock["Meta Data"]["3. Last Refreshed"]]["1. open"]).toFixed(2)
+
+     // const totalStockValue = (currentSharePrice() * props.userStock.attributes.number_of_shares).toFixed(2)
+
+     userStockObj.datePurchased = userStock.attributes.purchase_date;
+     userStockObj.daysHeld = Math.floor((new Date().getTime() - Date.parse(userStock.attributes.purchase_date)) / (1000*60*60*24));
+     userStockObj.stock = "userStockStock.attributes.name";
+     userStockObj.symbol = "userStockStock.attributes.symbol";
+     userStockObj.industry = "userStockStock.attributes.industry";
+     userStockObj.sector = "userStockStock.attributes.sector";
+     userStockObj.purchaseCost = `$${(userStock.attributes.total_spent / userStock.attributes.number_of_shares).toFixed(2)}`;
+     userStockObj.currentSharePrice = "currentSharePrice";
+     userStockObj.numberOfShares = userStock.attributes.number_of_shares;
+     userStockObj.totalSpent = `$${parseFloat(userStock.attributes.total_spent).toFixed(2)}`;
+     userStockObj.totalStockValue = "total stock value";
+     userStockObj.percentReturn = "% return";
+     userStockObj.absoluteReturn = "$$$$ return";
+     userStockObj.percentOfPortfolio = "% portfolio";
+
+     // userStockObj.currentSharePrice: currentSharePrice,
+     // userStockObj.totalStockValue: (currentSharePrice * {props.userStock.attributes.number_of_shares}).toFixed(2),
+     // userStockObj.percentReturn: {((totalStockValue / totalSpent) - 1).toFixed(2)},
+     // userStockObj.absoluteReturn: {(totalStockValue - totalSpent).toFixed(2)},
+     // userStockObj.percentOfPortfolio: "% portfolio",
+
+     return userStockObj
+   }),
+
+
+
+     // <UserStockCard userStock={userStock} key={userStock.id} userStockStock={props.stocks.find(stock => stock.id === userStock.relationships.stock.data.id)}/>),
+   []
+  )
+
+
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    rows,
+    prepareRow,
+  } = useTable({ columns, data })
+
   return (
     <div>
-      <h1>This is the table component</h1>
+      <h3>This is my table component</h3>
+      <table {...getTableProps()} style={{ border: "solid 1px blue"}}>
+        <thead>
+          {headerGroups.map(headerGroup => (
+            <tr {...headerGroup.getHeaderGroupProps()}>
+              {headerGroup.headers.map(column => (
+                <th {...column.getHeaderProps()} style={{ borderBottom: "solid 3px red", background: "aliceblue", color: "black", fontWeight: "bold"}}>
+                  {column.render("Header")}
+                </th>
+              ))}
+            </tr>
+          ))}
+        </thead>
+        <tbody {...getTableBodyProps()}>
+          {rows.map(row => {
+            prepareRow(row)
+            return (
+              <tr {...row.getRowProps()}>
+                {row.cells.map(cell => {
+                  return (
+                    <td {...cell.getCellProps()} style={{ padding: "10px", border: "solid 1px gray", background: "papayawhip"}}>
+                      {cell.render("Cell")}
+                    </td>
+                  )
+                })}
+              </tr>
+            )
+          })}
+        </tbody>
+      </table>
     </div>
   )
 }
