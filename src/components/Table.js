@@ -62,19 +62,8 @@ const Table = props => {
        Header: "% Portfolio",
        accessor: "percentOfPortfolio",
         accessor: row => {
-          const totalPortfolioValue = data.map(cell => parseFloat(cell.totalStockValue))
-
-          // const totalPortfolioValue = data.map(cell => cell.totalStockValue).reduce((sum, current) => sum + current)
-          // return ((row.totalStockValue / totalPortfolioValue) * 100).toFixed(2)
-          return totalPortfolioValue
-        }
-     },
-     {
-       Header: "% of Total Cost",
-       accessor: "percentOfTotal",
-        accessor: row => {
-          const totalCost = data.map(cell => cell.price).reduce((sum, current) => sum + current)
-          return ((row.price / totalCost) * 100).toFixed(2)
+          const totalPortfolioValue = data.map(cell => parseFloat(cell.totalStockValue.replace("$", ""))).reduce((sum, current) => sum + current)
+          return ((parseFloat(row.totalStockValue.replace("$", "")) / totalPortfolioValue) * 100).toFixed(2)
         }
      },
    ],
@@ -151,6 +140,9 @@ const Table = props => {
       })
 
     }
+    // else {
+    //   return []
+    // }
 
 
   }
