@@ -4,8 +4,6 @@ import { useTable } from 'react-table'
 const Table = props => {
   console.log("table props: ", props)
 
-  // const userStockCards = props.userStocks.map(userStock => <UserStockCard userStock={userStock} key={userStock.id} userStockStock={props.stocks.find(stock => stock.id === userStock.relationships.stock.data.id)}/>)
-
   const columns = React.useMemo(
    () => [
      {
@@ -63,6 +61,13 @@ const Table = props => {
      {
        Header: "% Portfolio",
        accessor: "percentOfPortfolio",
+        accessor: row => {
+          const totalPortfolioValue = data.map(cell => parseFloat(cell.totalStockValue))
+
+          // const totalPortfolioValue = data.map(cell => cell.totalStockValue).reduce((sum, current) => sum + current)
+          // return ((row.totalStockValue / totalPortfolioValue) * 100).toFixed(2)
+          return totalPortfolioValue
+        }
      },
      {
        Header: "% of Total Cost",
@@ -98,56 +103,61 @@ const Table = props => {
   //  []
   // )
 
+  console.log(props.userStocks)
+  const userStock = () => {
+    if (props.userStocks.length > 0) {
+      return props.userStocks.map(userStock => {
+        let userStockObj = {}
+
+        const userStockStock = props.stocks.find(stock => stock.id === userStock.relationships.stock.data.id)
+        // console.log(parseFloat(userStockStock["Time Series (5min)"][userStockStock["Meta Data"]["3. Last Refreshed"]]["1. open"]).toFixed(2))
+        // console.log(userStockStock)
+
+
+        //
+        const currentSharePrice = () => {
+          if (!!userStockStock["Meta Data"]) {
+            const lastRefreshed = userStockStock["Meta Data"]["3. Last Refreshed"]
+            const currentStockInfo = userStockStock["Time Series (5min)"][lastRefreshed]
+            const currentSharePrice = parseFloat(currentStockInfo["1. open"]).toFixed(2)
+            return currentSharePrice
+          }
+        }
+
+        // const currentSharePrice = parseFloat(userStockStock["Time Series (5min)"][userStockStock["Meta Data"]["3. Last Refreshed"]]["1. open"]).toFixed(2)
+
+        const totalStockValue = (currentSharePrice() * userStock.attributes.number_of_shares).toFixed(2)
+
+        const totalSpent = parseFloat(userStock.attributes.total_spent).toFixed(2)
+
+        userStockObj.datePurchased = userStock.attributes.purchase_date;
+        userStockObj.daysHeld = Math.floor((new Date().getTime() - Date.parse(userStock.attributes.purchase_date)) / (1000*60*60*24));
+        userStockObj.stock = userStockStock.attributes.name;
+        userStockObj.symbol = userStockStock.attributes.symbol;
+        userStockObj.industry = userStockStock.attributes.industry;
+        userStockObj.sector = userStockStock.attributes.sector;
+        userStockObj.purchaseCost = `$${(userStock.attributes.total_spent / userStock.attributes.number_of_shares).toFixed(2)}`;
+        userStockObj.currentSharePrice = "$" + currentSharePrice();
+        userStockObj.numberOfShares = userStock.attributes.number_of_shares;
+        userStockObj.totalSpent = `$${parseFloat(userStock.attributes.total_spent).toFixed(2)}`;
+        userStockObj.totalStockValue = "$" + totalStockValue;
+        userStockObj.percentReturn = ((totalStockValue / totalSpent) - 1).toFixed(2) + "%";
+        userStockObj.absoluteReturn = "$" + (totalStockValue - totalSpent).toFixed(2);
+        // userStockObj.percentOfPortfolio = "% portfolio";
+
+        // userStockObj.percentOfPortfolio: "% portfolio",
+
+        return userStockObj
+      })
+
+    }
+
+
+  }
+
+  console.log(userStock())
   const data = React.useMemo(
-   () =>
-
-   props.userStocks.map(userStock => {
-     let userStockObj = {}
-
-     const userStockStock = props.stocks.find(stock => stock.id === userStock.relationships.stock.data.id)
-     console.log(userStockStock["id"])
-     //
-     // const currentSharePrice = () => {
-     //   if (!!userStockStock["Meta Data"]) {
-     //     const lastRefreshed = props.userStockStock["Meta Data"]["3. Last Refreshed"]
-     //     const currentStockInfo = props.userStockStock["Time Series (5min)"][lastRefreshed]
-     //     const currentSharePrice = parseFloat(currentStockInfo["1. open"]).toFixed(2)
-     //     return currentSharePrice
-     //   }
-     // }
-
-     // const currentSharePrice = parseFloat(props.userStockStock["Time Series (5min)"][props.userStockStock["Meta Data"]["3. Last Refreshed"]]["1. open"]).toFixed(2)
-
-     // const totalStockValue = (currentSharePrice() * props.userStock.attributes.number_of_shares).toFixed(2)
-
-     userStockObj.datePurchased = userStock.attributes.purchase_date;
-     userStockObj.daysHeld = Math.floor((new Date().getTime() - Date.parse(userStock.attributes.purchase_date)) / (1000*60*60*24));
-     userStockObj.stock = "userStockStock.attributes.name";
-     userStockObj.symbol = "userStockStock.attributes.symbol";
-     userStockObj.industry = "userStockStock.attributes.industry";
-     userStockObj.sector = "userStockStock.attributes.sector";
-     userStockObj.purchaseCost = `$${(userStock.attributes.total_spent / userStock.attributes.number_of_shares).toFixed(2)}`;
-     userStockObj.currentSharePrice = "currentSharePrice";
-     userStockObj.numberOfShares = userStock.attributes.number_of_shares;
-     userStockObj.totalSpent = `$${parseFloat(userStock.attributes.total_spent).toFixed(2)}`;
-     userStockObj.totalStockValue = "total stock value";
-     userStockObj.percentReturn = "% return";
-     userStockObj.absoluteReturn = "$$$$ return";
-     userStockObj.percentOfPortfolio = "% portfolio";
-
-     // userStockObj.currentSharePrice: currentSharePrice,
-     // userStockObj.totalStockValue: (currentSharePrice * {props.userStock.attributes.number_of_shares}).toFixed(2),
-     // userStockObj.percentReturn: {((totalStockValue / totalSpent) - 1).toFixed(2)},
-     // userStockObj.absoluteReturn: {(totalStockValue - totalSpent).toFixed(2)},
-     // userStockObj.percentOfPortfolio: "% portfolio",
-
-     return userStockObj
-   }),
-
-
-
-     // <UserStockCard userStock={userStock} key={userStock.id} userStockStock={props.stocks.find(stock => stock.id === userStock.relationships.stock.data.id)}/>),
-   []
+    () => userStock(), []
   )
 
 
