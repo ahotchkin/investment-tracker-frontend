@@ -31,7 +31,10 @@ class MainContainer extends Component {
           <Route exact path="/signup" render={ props => this.props.loggedIn ? <Redirect to="/" /> : <SignUp history={props.history}/> } />
 
           {/* Do I want this to go to /user_stocks or /user_stocks/new? Can't get it to work by using /user_stocks */}
+          {/*
           <Route exact path="/user_stocks/new" render={ routerProps => this.props.loggedIn ? <UserStocksContainer currentUser={this.props.currentUser} stocks={this.props.stocks} {...routerProps} /> : <Home /> } />
+          */}
+          <Route exact path="/user_stocks" render={ routerProps => this.props.loggedIn ? <UserStocksContainer currentUser={this.props.currentUser} stocks={this.props.stocks} userStocks={this.props.userStocks} {...routerProps} /> : <Home /> } />
 
           <Route exact path="/stocks" render={ routerProps => this.props.loggedIn ? <StocksContainer stocks={this.props.stocks} {...routerProps} /> : <Home /> } />
 
