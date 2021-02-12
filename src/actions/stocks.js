@@ -12,6 +12,13 @@ export const setStockInfo = stock => {
     stock
   }
 }
+
+export const addStock = stock => {
+  return {
+    type: "ADD_STOCK",
+    stock
+  }
+}
 // Eventually want user to have ability to add a stock to the database, ideally as they add a userStock.
 // export const addStock = stock => {
 //   return {
@@ -66,6 +73,33 @@ export const getStockInfo = stock => {
       .catch(json => console.log(json))
   }
 }
+
+export const createStock = stockData => {
+  const stockInfo = {
+    stock: stockData
+  }
+
+  return dispatch => {
+    return fetch("http://localhost:3001/stocks", {
+      credentials: "include",
+      method: "POST",
+      headers: {
+        "Content-type": "application/json"
+      },
+      body: JSON.stringify(stockInfo)
+    })
+      .then(response => response.json())
+      .then(json => {
+        if (json.error) {
+          throw new Error(json.error)
+        } else {
+          dispatch(addStock(json.data))
+        }
+      })
+      .catch(json => console.log(json))
+  }
+}
+
 
 // Eventually want user to have ability to add a stock to the database, ideally as they add a userStock.
 // export const createStock = stockData => {
