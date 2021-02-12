@@ -117,6 +117,15 @@ const Table = props => {
 
         const totalStockValue = (currentSharePrice() * userStock.attributes.number_of_shares).toFixed(2)
 
+        const absoluteReturn = () => {
+          // return (totalStockValue - totalSpent).toFixed(2)
+          if ((totalStockValue - totalSpent).toFixed(2) < 0) {
+            return "-$" + (totalStockValue - totalSpent).toFixed(2).replace("-", "")
+          } else {
+            return "$" + (totalStockValue - totalSpent).toFixed(2)
+          }
+        }
+
         const totalSpent = parseFloat(userStock.attributes.total_spent).toFixed(2)
 
         userStockObj.datePurchased = userStock.attributes.purchase_date;
@@ -131,7 +140,7 @@ const Table = props => {
         userStockObj.totalSpent = `$${parseFloat(userStock.attributes.total_spent).toFixed(2)}`;
         userStockObj.totalStockValue = "$" + totalStockValue;
         userStockObj.percentReturn = ((totalStockValue / totalSpent) - 1).toFixed(2) + "%";
-        userStockObj.absoluteReturn = "$" + (totalStockValue - totalSpent).toFixed(2);
+        userStockObj.absoluteReturn = absoluteReturn();
         // userStockObj.percentOfPortfolio = "% portfolio";
 
         // userStockObj.percentOfPortfolio: "% portfolio",
@@ -140,9 +149,9 @@ const Table = props => {
       })
 
     }
-    // else {
-    //   return []
-    // }
+    else {
+      return []
+    }
 
 
   }
